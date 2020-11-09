@@ -43,8 +43,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }
     @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/swagger-ui.html");
+    public void configure(WebSecurity web) throws Exception{
+        web.ignoring().antMatchers("/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**");
     }
 
     @Override
