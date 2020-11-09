@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
@@ -17,9 +18,11 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Value("spring.security.oauth2.client-id")
-    private String clientid;
+    private String clientId;
     @Value("spring.security.oauth2.client-secret")
     private String clientSecret ;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     @Qualifier("authenticationManagerBean")
@@ -49,10 +52,10 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(ClientDetailsServiceConfigurer serviceConfigurer) throws Exception {
-        serviceConfigurer.inMemory().withClient(clientid).secret(clientSecret).scopes("read","write")
+        serviceConfigurer.inMemory().withClient(clientId).secret(passwordEncoder.encode(clientSecret)).scopes("read","write","all")
                 .authorizedGrantTypes("password", "refresh_token")
-                .accessTokenValiditySeconds(2000)
-                .refreshTokenValiditySeconds(2000);
+                .accessTokenValiditySeconds(20000)
+                .refreshTokenValiditySeconds(20000);
     }
 
 }

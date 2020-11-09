@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }
     @Override
-    public void configure(WebSecurity web) throws Exception{
+    public void configure(WebSecurity web) {
         web.ignoring();
     }
 

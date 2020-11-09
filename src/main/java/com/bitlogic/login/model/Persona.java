@@ -3,6 +3,7 @@ package com.bitlogic.login.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -30,6 +31,10 @@ public class Persona {
     }
 
     public Persona(String phoneNumber, String password, ArrayList<GrantedAuthority> authorities) {
+        if (authorities.size() > 0) {
+            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ADMIN");
+            aouth.add(grantedAuthority);
+        }
         this.aouth = authorities;
         this.phoneNumber = phoneNumber;
         this.password = password;
