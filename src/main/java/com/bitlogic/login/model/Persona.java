@@ -16,32 +16,21 @@ public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "phone_number", unique = true, nullable = false)
     @JsonProperty("username")
     private String phoneNumber;
+
     @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
+
     @JsonIgnore
     @Transient
     private Collection<GrantedAuthority> aouth;
 
-    public Persona() {
-
-    }
-
     public Persona(String phoneNumber, String password) {
         this.phoneNumber = phoneNumber;
         this.password = password;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Persona{" +
-                "id=" + id +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", password='" + password + '\'' +
-                '}';
     }
 }
