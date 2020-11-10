@@ -1,31 +1,40 @@
 package com.bitlogic.login.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "personas")
+@Data
 public class Persona {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "phone_number", unique = true, nullable = false)
+    @JsonProperty("username")
     private String phoneNumber;
     @JsonIgnore
+    @Column(name = "password", nullable = false)
     private String password;
+    @JsonIgnore
+    @Transient
+    private Collection<GrantedAuthority> aouth;
 
-    public Persona(){
+    public Persona() {
 
     }
 
-    public Persona(Long id, String phoneNumber, String password) {
-        this.id = id;
+    public Persona(String phoneNumber, String password) {
         this.phoneNumber = phoneNumber;
         this.password = password;
     }
+
 
     @Override
     public String toString() {
